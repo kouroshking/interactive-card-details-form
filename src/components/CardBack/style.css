@@ -1,0 +1,39 @@
+.card-back {
+    position: absolute;
+    bottom: 25%;
+    left: 20%;
+
+    width: 400px;
+    height: 220px;
+    border-radius: 10px;
+
+    color: var(--white-color);
+
+    z-index: 999;
+    box-shadow: 0 0 8rem rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+
+.card-back .card-back-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+
+.card-back .cvc-number {
+    position: absolute;
+    top: 50%;
+    right: 50px;
+
+
+    transform: translateY(-50%);
+}

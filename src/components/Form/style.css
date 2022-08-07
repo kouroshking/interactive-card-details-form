@@ -1,0 +1,52 @@
+.form-wrapper-inner {
+    width: 400px;
+}
+
+.form-wrapper .form-row {
+    display: flex;
+}
+
+.form-row.col-2 {
+    gap: 1rem;
+    justify-content: space-between;
+
+}
+
+.form-wrapper .form-section {
+    display: block;
+    margin: 1rem 0;
+    width: 100%;
+}
+
+.form-wrapper label {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: .5rem;
+
+    color: var(--very-dark-violet-color);
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-wrapper .error-message {
+    color: var(--input-error-border-color);
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: .5rem;
+}
+
+
+.form-btn {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    color: var(--white-color);
+    background-color: var(--very-dark-violet-color);
+    font-size: var(--font-size);
+    cursor: pointer;
+}

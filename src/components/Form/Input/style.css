@@ -1,0 +1,17 @@
+input {
+    width: 100%;
+    padding: .5rem 1rem;
+    outline: none;
+    border: 2px solid var(--light-grayish-violet-color);
+    border-radius: 10px;
+    font-size: var(--font-size);
+}
+
+input:focus {
+    border-color: hsl(249, 99%, 64%);
+}
+
+
+input.error {
+    border-color: var(--input-error-border-color);
+}
