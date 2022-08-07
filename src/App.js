@@ -6,6 +6,7 @@ import CardFront from "./components/CardFront/CardFront";
 import CardBack from "./components/CardBack/CardBack";
 // images
 import bgMainDesktop from "./images/bg-main-desktop.png";
+import bgMainMobile from "./images/bg-main-mobile.png";
 import completedIcon from "./images/icon-complete.svg";
 // styles
 import "./styles.css";
@@ -263,7 +264,16 @@ const App = () => {
 
   return (
     <div className="App">
-      <img className="App-bg-img" src={bgMainDesktop} alt="bg-main-desktop" />
+      <img
+        className="App-bg-img hide-on-mobile"
+        src={bgMainDesktop}
+        alt="bg-main-desktop"
+      />
+      <img
+        className="App-bg-img hide-on-desktop"
+        src={bgMainMobile}
+        alt="bg-main-mobile"
+      />
 
       <CardFront
         cardNumber={cardData.cardNumber}

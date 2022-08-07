@@ -20,6 +20,7 @@
 }
 
 
+
 .card-front .card-front-bg {
     position: absolute;
     top: 0;
@@ -68,4 +69,33 @@
     align-items: center;
     gap: 1rem;
     width: 100%;
+}
+
+.card-front .card-name {
+    font-size: 14px;
+    letter-spacing: 2px;
+    font-weight: 500;
+    font-family: var(--font-family);
+}
+
+.card-front .card-exp-date {
+    font-size: 14px;
+    letter-spacing: 2px;
+    font-weight: 500;
+    font-family: var(--font-family);
+}
+
+@media(max-width: 768px) {
+    .card-front {
+        width: 300px;
+        height: 180px;
+
+        top: 11rem;
+        left: 1rem;
+        z-index: 999;
+    }
+
+    .card-front .card-number {
+        font-size: 20px;
+    }
 }

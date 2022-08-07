@@ -37,3 +37,19 @@
 
     transform: translateY(-50%);
 }
+
+
+@media(max-width: 768px) {
+    .card-back {
+
+        width: 300px;
+        height: 180px;
+
+        top: 4rem;
+        right: 1rem;
+        left: unset;
+        z-index: 998;
+    }
+
+
+}
