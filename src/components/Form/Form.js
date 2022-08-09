@@ -10,8 +10,6 @@ const Form = ({
   handleFormSubmit,
   error,
   setError,
-  isThereError,
-  setIsThereError,
   validateCardNumber,
   validateCardHolderName,
   validateCardExpYear,

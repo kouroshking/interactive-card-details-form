@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 // components
 import Form from "./components/Form/Form";
@@ -13,7 +13,6 @@ import "./styles.css";
 
 const App = () => {
   const [cardAdded, setCardAdded] = useState(false);
-  const [isThereError, setIsThereError] = useState(false);
 
   const [cardData, setCardData] = useState({
     cvc: "",
@@ -33,7 +32,6 @@ const App = () => {
 
   const validateCardNumber = (cardNumber) => {
     if (!cardNumber) {
-      setIsThereError(true);
       setError((prev) => ({
         ...prev,
         cardNumber: [true, "Card Number is required"],
@@ -44,7 +42,6 @@ const App = () => {
     cardNumber = cardNumber.replace(/\s/g, "");
 
     if (cardNumber.length !== 16) {
-      setIsThereError(true);
       setError((prev) => ({
         ...prev,
         cardNumber: [true, "Card Number must be 16 digits"],
@@ -53,7 +50,6 @@ const App = () => {
     }
 
     if (cardNumber === "0000000000000000") {
-      setIsThereError(true);
       setError((prev) => ({
         ...prev,
         cardNumber: [
@@ -65,7 +61,6 @@ const App = () => {
     }
 
     if (!cardNumber.match(/[0-9]/g)) {
-      setIsThereError(true);
       setError((prev) => ({
         ...prev,
         cardNumber: [true, "Card Number must be digits only"],
@@ -74,19 +69,22 @@ const App = () => {
     }
 
     if (cardNumber.match(/[a-z]/g) || cardNumber.match(/[A-Z]/g)) {
-      setIsThereError(true);
       setError((prev) => ({
         ...prev,
         cardNumber: [true, "Card Number must be digits only"],
       }));
       return false;
     }
+    setError((prev) => ({
+      ...prev,
+      cardNumber: [false, ""],
+    }));
+
     return true;
   };
 
   const validateCardHolderName = (cardHolderName) => {
     if (!cardHolderName) {
-      setIsThereError(true);
       setError((prev) => ({
         ...prev,
         cardHolderName: [true, "Card Holder Name is required"],
@@ -97,7 +95,6 @@ const App = () => {
     cardHolderName = cardHolderName.split(" ");
 
     if (cardHolderName.length < 2) {
-      setIsThereError(true);
       setError((prev) => ({
         ...prev,
         cardHolderName: [
@@ -109,7 +106,6 @@ const App = () => {
     }
 
     if (!cardHolderName[0].match(/[A-Z]/g)) {
-      setIsThereError(true);
       setError((prev) => ({
         ...prev,
         cardHolderName: [
@@ -121,7 +117,6 @@ const App = () => {
     }
 
     if (!cardHolderName[1].match(/[A-Z]/g)) {
-      setIsThereError(true);
       setError((prev) => ({
         ...prev,
         cardHolderName: [
@@ -131,12 +126,16 @@ const App = () => {
       }));
       return false;
     }
+    setError((prev) => ({
+      ...prev,
+      cardHolderName: [false, ""],
+    }));
+
     return true;
   };
 
   const validateCardExpYear = (cardExpYear) => {
     if (!cardExpYear) {
-      setIsThereError(true);
       setError((prev) => ({
         ...prev,
         cardExpYear: [true, "Card Expiration Year is required"],
@@ -145,7 +144,6 @@ const App = () => {
     }
 
     if (cardExpYear.length !== 2) {
-      setIsThereError(true);
       setError((prev) => ({
         ...prev,
         cardExpYear: [
@@ -157,19 +155,21 @@ const App = () => {
     }
 
     if (cardExpYear.match(/[a-z]/g) || cardExpYear.match(/[A-Z]/g)) {
-      setIsThereError(true);
       setError((prev) => ({
         ...prev,
         cardExpYear: [true, "Card Expiration Year must be digits only"],
       }));
       return false;
     }
+    setError((prev) => ({
+      ...prev,
+      cardExpYear: [false, ""],
+    }));
     return true;
   };
 
   const validateCardExpMonth = (cardExpMonth) => {
     if (!cardExpMonth) {
-      setIsThereError(true);
       setError((prev) => ({
         ...prev,
         cardExpMonth: [true, "Card Expiration Month is required"],
@@ -178,7 +178,6 @@ const App = () => {
     }
 
     if (cardExpMonth.length !== 2) {
-      setIsThereError(true);
       setError((prev) => ({
         ...prev,
         cardExpMonth: [
@@ -190,19 +189,22 @@ const App = () => {
     }
 
     if (cardExpMonth.match(/[a-z]/g) || cardExpMonth.match(/[A-Z]/g)) {
-      setIsThereError(true);
       setError((prev) => ({
         ...prev,
         cardExpMonth: [true, "Card Expiration Year must be digits only"],
       }));
       return false;
     }
+    setError((prev) => ({
+      ...prev,
+      cardExpMonth: [false, ""],
+    }));
+
     return true;
   };
 
   const validateCVC = (cvc) => {
     if (!cvc) {
-      setIsThereError(true);
       setError((prev) => ({
         ...prev,
         cvc: [true, "CVC is required"],
@@ -211,7 +213,6 @@ const App = () => {
     }
 
     if (cvc.length !== 3) {
-      setIsThereError(true);
       setError((prev) => ({
         ...prev,
         cvc: [true, "CVC must be 3 digits"],
@@ -220,13 +221,17 @@ const App = () => {
     }
 
     if (cvc === "000") {
-      setIsThereError(true);
       setError((prev) => ({
         ...prev,
         cvc: [true, "CVC cannot be 000"],
       }));
       return false;
     }
+
+    setError((prev) => ({
+      ...prev,
+      cvc: [false, ""],
+    }));
     return true;
   };
 
@@ -253,19 +258,10 @@ const App = () => {
     // validating data
     const isValid = validateForm();
     // if all data is valid, set cardAdded to true
-    if (isValid && !isThereError) {
+    if (isValid) {
       setCardAdded(true);
     }
   };
-  useEffect(() => {
-    const isTheFromDataValid = validateForm();
-
-    if (isTheFromDataValid) {
-      setIsThereError(false);
-    } else {
-      setIsThereError(true);
-    }
-  }, [cardData]);
 
   return (
     <div className="App">
@@ -318,8 +314,6 @@ const App = () => {
               handleFormSubmit={handleFormSubmit}
               error={error}
               setError={setError}
-              isThereError={isThereError}
-              setIsThereError={setIsThereError}
               validateCardNumber={validateCardNumber}
               validateCardHolderName={validateCardHolderName}
               validateCardExpYear={validateCardExpYear}
