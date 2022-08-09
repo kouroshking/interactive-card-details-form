@@ -23,8 +23,6 @@ const App = () => {
     cardExpMonth: "",
   });
 
-  const [isOneFieldEmpty, setIsOneFieldEmpty] = useState(true);
-
   const [error, setError] = useState({
     cardNumber: [false, ""],
     cardHolderName: [false, ""],
@@ -33,234 +31,241 @@ const App = () => {
     cvc: [false, ""],
   });
 
-  const validateCVC = (cvc) => {
-    if (!cvc) {
-      setIsThereError(true);
-      return setError((prev) => ({
-        ...prev,
-        cvc: [true, "CVC is required"],
-      }));
-    }
-
-    if (cvc.length !== 3) {
-      setIsThereError(true);
-      return setError((prev) => ({
-        ...prev,
-        cvc: [true, "CVC must be 3 digits"],
-      }));
-    }
-
-    if (cvc === "000") {
-      setIsThereError(true);
-      return setError((prev) => ({
-        ...prev,
-        cvc: [true, "CVC cannot be 000"],
-      }));
-    }
-  };
-
   const validateCardNumber = (cardNumber) => {
     if (!cardNumber) {
       setIsThereError(true);
-      return setError((prev) => ({
+      setError((prev) => ({
         ...prev,
         cardNumber: [true, "Card Number is required"],
       }));
+      return false;
     }
 
     cardNumber = cardNumber.replace(/\s/g, "");
 
     if (cardNumber.length !== 16) {
       setIsThereError(true);
-      return setError((prev) => ({
+      setError((prev) => ({
         ...prev,
         cardNumber: [true, "Card Number must be 16 digits"],
       }));
+      return false;
     }
 
     if (cardNumber === "0000000000000000") {
       setIsThereError(true);
-      return setError((prev) => ({
+      setError((prev) => ({
         ...prev,
         cardNumber: [
           true,
           "Card Number cannot be 000000000000000 or 0000 0000 0000 0000",
         ],
       }));
+      return false;
     }
 
     if (!cardNumber.match(/[0-9]/g)) {
       setIsThereError(true);
-      return setError((prev) => ({
+      setError((prev) => ({
         ...prev,
         cardNumber: [true, "Card Number must be digits only"],
       }));
+      return false;
     }
 
     if (cardNumber.match(/[a-z]/g) || cardNumber.match(/[A-Z]/g)) {
       setIsThereError(true);
-      return setError((prev) => ({
+      setError((prev) => ({
         ...prev,
         cardNumber: [true, "Card Number must be digits only"],
       }));
+      return false;
     }
+    return true;
   };
 
   const validateCardHolderName = (cardHolderName) => {
     if (!cardHolderName) {
       setIsThereError(true);
-      return setError((prev) => ({
+      setError((prev) => ({
         ...prev,
         cardHolderName: [true, "Card Holder Name is required"],
       }));
+      return false;
     }
 
     cardHolderName = cardHolderName.split(" ");
 
     if (cardHolderName.length < 2) {
       setIsThereError(true);
-      return setError((prev) => ({
+      setError((prev) => ({
         ...prev,
         cardHolderName: [
           true,
           "Card Holder Name must be at least 2 words long",
         ],
       }));
+      return false;
     }
 
     if (!cardHolderName[0].match(/[A-Z]/g)) {
       setIsThereError(true);
-      return setError((prev) => ({
+      setError((prev) => ({
         ...prev,
         cardHolderName: [
           true,
           "the first name card Holder letter must be uppercase",
         ],
       }));
+      return false;
     }
 
     if (!cardHolderName[1].match(/[A-Z]/g)) {
       setIsThereError(true);
-      return setError((prev) => ({
+      setError((prev) => ({
         ...prev,
         cardHolderName: [
           true,
           "the last name card Holder letter must be uppercase",
         ],
       }));
+      return false;
     }
+    return true;
   };
 
   const validateCardExpYear = (cardExpYear) => {
     if (!cardExpYear) {
       setIsThereError(true);
-      return setError((prev) => ({
+      setError((prev) => ({
         ...prev,
         cardExpYear: [true, "Card Expiration Year is required"],
       }));
+      return false;
     }
 
     if (cardExpYear.length !== 2) {
       setIsThereError(true);
-      return setError((prev) => ({
+      setError((prev) => ({
         ...prev,
         cardExpYear: [
           true,
-          "Card Expiration Year must be 2 digits. e.g. 99 for 1999 or 19 for 2019",
+          "Card Expiration Year must be 2 digits. e.g. 99 for 1999 or 19 for 2019 or 02 for 2002",
         ],
       }));
+      return false;
     }
 
     if (cardExpYear.match(/[a-z]/g) || cardExpYear.match(/[A-Z]/g)) {
       setIsThereError(true);
-      return setError((prev) => ({
+      setError((prev) => ({
         ...prev,
         cardExpYear: [true, "Card Expiration Year must be digits only"],
       }));
+      return false;
     }
+    return true;
   };
 
   const validateCardExpMonth = (cardExpMonth) => {
     if (!cardExpMonth) {
       setIsThereError(true);
-      return setError((prev) => ({
+      setError((prev) => ({
         ...prev,
         cardExpMonth: [true, "Card Expiration Month is required"],
       }));
+      return false;
     }
 
     if (cardExpMonth.length !== 2) {
       setIsThereError(true);
-      return setError((prev) => ({
+      setError((prev) => ({
         ...prev,
         cardExpMonth: [
           true,
           "Card Expiration Month must be 2 digits. e.g. 08 for August or 01 for January or 12 for December",
         ],
       }));
+      return false;
     }
 
     if (cardExpMonth.match(/[a-z]/g) || cardExpMonth.match(/[A-Z]/g)) {
       setIsThereError(true);
-      return setError((prev) => ({
+      setError((prev) => ({
         ...prev,
         cardExpMonth: [true, "Card Expiration Year must be digits only"],
       }));
+      return false;
     }
+    return true;
+  };
+
+  const validateCVC = (cvc) => {
+    if (!cvc) {
+      setIsThereError(true);
+      setError((prev) => ({
+        ...prev,
+        cvc: [true, "CVC is required"],
+      }));
+      return false;
+    }
+
+    if (cvc.length !== 3) {
+      setIsThereError(true);
+      setError((prev) => ({
+        ...prev,
+        cvc: [true, "CVC must be 3 digits"],
+      }));
+      return false;
+    }
+
+    if (cvc === "000") {
+      setIsThereError(true);
+      setError((prev) => ({
+        ...prev,
+        cvc: [true, "CVC cannot be 000"],
+      }));
+      return false;
+    }
+    return true;
   };
 
   const validateForm = () => {
     const { cvc, cardNumber, cardHolderName, cardExpYear, cardExpMonth } =
       cardData;
-    validateCVC(cvc);
-    validateCardNumber(cardNumber);
-    validateCardHolderName(cardHolderName);
-    validateCardExpYear(cardExpYear);
-    validateCardExpMonth(cardExpMonth);
+    if (!validateCardHolderName(cardHolderName)) return false;
+    if (!validateCardNumber(cardNumber)) return false;
+    if (!validateCardExpMonth(cardExpMonth)) return false;
+    if (!validateCardExpYear(cardExpYear)) return false;
+    if (!validateCVC(cvc)) return false;
+
+    if (error.cardNumber[0]) return false;
+    if (error.cardHolderName[0]) return false;
+    if (error.cardExpYear[0]) return false;
+    if (error.cardExpMonth[0]) return false;
+    if (error.cvc[0]) return false;
+
+    return true;
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     // validating data
-
-    validateForm();
+    const isValid = validateForm();
     // if all data is valid, set cardAdded to true
-    if (
-      !isOneFieldEmpty &&
-      !isThereError &&
-      !error.cardNumber[0] &&
-      !error.cardHolderName[0] &&
-      !error.cardExpYear[0] &&
-      !error.cardExpMonth[0] &&
-      !error.cvc[0]
-    ) {
+    if (isValid && !isThereError) {
       setCardAdded(true);
     }
   };
-
   useEffect(() => {
-    let anyError = false;
-    for (let key in error) {
-      if (error[key][0]) {
-        anyError = true;
-      }
-    }
-    if (anyError) {
-      setIsThereError(true);
-    } else {
+    const isTheFromDataValid = validateForm();
+
+    if (isTheFromDataValid) {
       setIsThereError(false);
+    } else {
+      setIsThereError(true);
     }
-
-    let isOneFieldEmpty = false;
-
-    for (let key in cardData) {
-      if (!cardData[key]) {
-        isOneFieldEmpty = true;
-      }
-    }
-
-    setIsOneFieldEmpty(isOneFieldEmpty);
-  }, [error, cardData]);
+  }, [cardData]);
 
   return (
     <div className="App">
@@ -313,6 +318,13 @@ const App = () => {
               handleFormSubmit={handleFormSubmit}
               error={error}
               setError={setError}
+              isThereError={isThereError}
+              setIsThereError={setIsThereError}
+              validateCardNumber={validateCardNumber}
+              validateCardHolderName={validateCardHolderName}
+              validateCardExpYear={validateCardExpYear}
+              validateCardExpMonth={validateCardExpMonth}
+              validateCVC={validateCVC}
             />
           )}
         </div>

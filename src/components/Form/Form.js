@@ -5,17 +5,37 @@ import Input from "./Input/Input";
 // styles
 import "./style.css";
 
-const Form = ({ setCardData, handleFormSubmit, error, setError }) => {
-  const handleInputChange = (e, propName) => {
-    setError((prev) => ({
-      ...prev,
-      [propName]: [false, ""],
-    }));
-
+const Form = ({
+  setCardData,
+  handleFormSubmit,
+  error,
+  setError,
+  isThereError,
+  setIsThereError,
+  validateCardNumber,
+  validateCardHolderName,
+  validateCardExpYear,
+  validateCardExpMonth,
+  validateCVC,
+}) => {
+  const handleInputChange = (
+    e,
+    propName,
+    validationMethod = function () {
+      return true;
+    }
+  ) => {
     setCardData((prev) => ({
       ...prev,
       [propName]: e.target.value,
     }));
+
+    if (validationMethod(e.target.value)) {
+      setError((prev) => ({
+        ...prev,
+        [propName]: [false, ""],
+      }));
+    }
   };
 
   return (
@@ -30,7 +50,9 @@ const Form = ({ setCardData, handleFormSubmit, error, setError }) => {
                 name="cardHolderName"
                 type="text"
                 placeholder="e.g. Jane Applessed"
-                onChange={(e) => handleInputChange(e, "cardHolderName")}
+                onChange={(e) =>
+                  handleInputChange(e, "cardHolderName", validateCardHolderName)
+                }
               />
               {error.cardHolderName[0] && (
                 <span className="error-message">{error.cardHolderName[1]}</span>
@@ -46,7 +68,9 @@ const Form = ({ setCardData, handleFormSubmit, error, setError }) => {
                 name="cardNumber"
                 type="text"
                 placeholder="e.g. 1234 5678 9123 0000"
-                onChange={(e) => handleInputChange(e, "cardNumber")}
+                onChange={(e) =>
+                  handleInputChange(e, "cardNumber", validateCardNumber)
+                }
               />
               {error.cardNumber[0] && (
                 <span className="error-message">{error.cardNumber[1]}</span>
@@ -65,7 +89,9 @@ const Form = ({ setCardData, handleFormSubmit, error, setError }) => {
                   max="12"
                   step="1"
                   placeholder="MM"
-                  onChange={(e) => handleInputChange(e, "cardExpMonth")}
+                  onChange={(e) =>
+                    handleInputChange(e, "cardExpMonth", validateCardExpMonth)
+                  }
                 />
                 <Input
                   error={error.cardExpYear}
@@ -75,7 +101,9 @@ const Form = ({ setCardData, handleFormSubmit, error, setError }) => {
                   max="99"
                   step="1"
                   placeholder="YY"
-                  onChange={(e) => handleInputChange(e, "cardExpYear")}
+                  onChange={(e) =>
+                    handleInputChange(e, "cardExpYear", validateCardExpYear)
+                  }
                 />
               </div>
               {error.cardExpMonth[0] && (
@@ -99,7 +127,7 @@ const Form = ({ setCardData, handleFormSubmit, error, setError }) => {
                 min="100"
                 max="999"
                 placeholder="e.g. 123"
-                onChange={(e) => handleInputChange(e, "cvc")}
+                onChange={(e) => handleInputChange(e, "cvc", validateCVC)}
               />
               {error.cvc[0] && (
                 <span className="error-message">{error.cvc[1]}</span>
